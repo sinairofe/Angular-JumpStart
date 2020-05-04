@@ -1,0 +1,26 @@
+.form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.dialog-wrapper{
+  position: relative;
+  height: 100%;
+}
+
+.mat-dialog-actions{
+  position: absolute;
+  bottom: 10%;
+}
+
+.productList{
+  padding: 10px 0;
+}
+
+.dialog-close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+}

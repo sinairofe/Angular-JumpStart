@@ -5,13 +5,20 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OverlayRequestResponseInterceptor } from './overlay-request-response.interceptor';
 import { OverlayComponent } from './overlay.component';
 import { EnsureModuleLoadedOnceGuard } from '../ensure-module-loaded-once.guard';
+import {CachingInterceptor} from "./caching-Interceptor";
+import {RequestCustomCache} from "./request-cache";
 
 
 @NgModule({
   imports: [CommonModule],
   exports: [OverlayComponent],
   declarations: [OverlayComponent],
-  providers: [
+  providers: [RequestCustomCache,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: OverlayRequestResponseInterceptor,

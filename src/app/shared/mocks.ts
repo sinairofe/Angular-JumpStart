@@ -3,10 +3,14 @@ import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, Params, Data, Route
 
 import { Observable, of } from 'rxjs';
 
-import { ICustomer, IPagedResults } from './interfaces';
+import {ICustomer, IOrder, IPagedResults} from './interfaces';
 
 export class MockDataService {
     constructor() {}
+
+  getProducts(): Observable<IOrder[]> {
+    return of(products);
+  }
 
     getCustomer(id: number): Observable<ICustomer> {
         if (id === 1) {
@@ -71,6 +75,21 @@ export function getActivatedRouteWithParent(params: any[]) {
 
     return route;
 }
+
+export const products = [
+  {
+    'productName': 'Basketball',
+    'itemCost': 7.99
+  },
+  {
+    'productName': 'Shoes',
+    'itemCost': 199.99
+  },
+  {
+    'productName': 'Frisbee',
+    'itemCost': 2.99
+  }
+]
 
 export const customers = [
     {

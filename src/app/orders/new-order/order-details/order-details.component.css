@@ -1,0 +1,8 @@
+.product{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.cost{
+  opacity: 0.8;
+}

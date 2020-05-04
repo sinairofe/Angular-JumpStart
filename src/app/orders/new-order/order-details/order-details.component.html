@@ -1,0 +1,4 @@
+<div class="product" *ngIf="product">
+  <span class="name">{{product.productName}}</span>
+  <small class="cost">{{product.itemCost | currency:'USD':'symbol'}}</small>
+</div>

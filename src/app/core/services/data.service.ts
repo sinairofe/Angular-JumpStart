@@ -15,12 +15,23 @@ export class DataService {
     baseUrl = `${this.window.location.protocol}//${this.window.location.hostname}:${this.port}`;
     customersBaseUrl = this.baseUrl + '/api/customers';
     ordersBaseUrl = this.baseUrl + '/api/orders';
+    productsBaseUrl = this.baseUrl + '/api/products';
     orders: IOrder[];
     states: IState[];
 
-    constructor(private http: HttpClient, @Inject('Window') private window: Window) { 
+    constructor(private http: HttpClient, @Inject('Window') private window: Window) {
 
     }
+
+  getProducts(): Observable<IOrder[]> {
+    return this.http.get<IOrder[]>(`${this.productsBaseUrl}?cachable`)
+      .pipe(catchError(this.handleError));
+  }
+
+  addCustomerOrder(customerId, orders: IOrder[]): Observable<boolean>{
+    return this.http.post<any>(`${this.customersBaseUrl}/add-new-orders/${customerId}`, orders)
+      .pipe(catchError(this.handleError));
+  }
 
     getCustomersPage(page: number, pageSize: number): Observable<IPagedResults<ICustomer[]>> {
         return this.http.get<ICustomer[]>(

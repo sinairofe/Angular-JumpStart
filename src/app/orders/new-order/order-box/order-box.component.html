@@ -1,0 +1,28 @@
+<div class="dialog-wrapper">
+  <span class="dialog-close glyphicon glyphicon-remove" (click)="close()"></span>
+  <h1 mat-dialog-title>Hi {{data.firstName}} {{data.lastName}}</h1>
+  <div mat-dialog-content>
+    <p>Choose your favorite products</p>
+    <form class="form">
+      <mat-form-field class="full-width">
+        <input #input matInput
+               placeholder="Products"
+               aria-label="Products"
+               [matAutocomplete]="auto"
+               [formControl]="inputCtrl">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let product of filteredProducts | async" [value]="product.productName">
+            <cm-order-details [product]="product"></cm-order-details>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div  *ngFor="let product of choosedProducts; trackBy:trackbyService.order" class="productList">
+    <cm-order-details [product]="product"></cm-order-details>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="addAll()">Add All</button>
+    <button mat-button (click)="addNewOrder(input.value)">Choose Product</button>
+  </div>
+</div>
