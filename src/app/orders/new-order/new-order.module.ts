@@ -5,8 +5,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AngularMaterialModule} from "../../shared/angular-material/angular-material.module";
 import {BrowserModule} from "@angular/platform-browser";
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import {SharedModule} from "../../shared/shared.module";
 import {HttpClientModule} from "@angular/common/http";
-
 
 
 @NgModule({
@@ -14,7 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     CommonModule,
     FormsModule,
-    AngularMaterialModule,
+    SharedModule,
     ReactiveFormsModule,
     HttpClientModule
   ]

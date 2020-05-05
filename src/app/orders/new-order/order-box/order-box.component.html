@@ -1,6 +1,6 @@
 <div class="dialog-wrapper">
   <span class="dialog-close glyphicon glyphicon-remove" (click)="close()"></span>
-  <h1 mat-dialog-title>Hi {{data.firstName}} {{data.lastName}}</h1>
+  <h1 mat-dialog-title>Hi {{customer.firstName | capitalize}} {{customer.lastName | capitalize}}</h1>
   <div mat-dialog-content>
     <p>Choose your favorite products</p>
     <form class="form">
@@ -22,7 +22,7 @@
     <cm-order-details [product]="product"></cm-order-details>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="addAll()">Add All</button>
-    <button mat-button (click)="addNewOrder(input.value)">Choose Product</button>
+    <button mat-button (click)="orderAllProducts()">Add All</button>
+    <button mat-button (click)="chooseProduct(input.value)">Choose Product</button>
   </div>
 </div>

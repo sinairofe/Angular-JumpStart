@@ -18,7 +18,7 @@
                             <td>{{order.productName}}</td>
                             <td class="text-right">{{ order.itemCost | currency:'USD':'symbol' }}</td>
                         </tr>
-                        <tr class="add-new-order" (click)="addNewOrder(customer)">
+                        <tr class="add-new-order" (click)="openDialogOrderBox(customer)">
                           <td><span class="glyphicon glyphicon-plus"></span> Add new Order</td>
                         </tr>
                         <tr class="summary-border">
@@ -28,7 +28,7 @@
                     </table>
                     <div *ngIf="!customer.orders || !customer.orders.length">
                       <div>  No orders found</div>
-                      <div class="add-new-order mb-12" (click)="addNewOrder(customer)">
+                      <div class="add-new-order mb-12" (click)="openDialogOrderBox(customer)">
                         <span class="glyphicon glyphicon-plus"></span> Add new Order
                       </div>
                     </div>

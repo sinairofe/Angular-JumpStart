@@ -5,7 +5,8 @@ var express     = require('express'),
     app         = express(),
     customers   = JSON.parse(fs.readFileSync('data/customers.json', 'utf-8')),
     states      = JSON.parse(fs.readFileSync('data/states.json', 'utf-8')),
-    inContainer = process.env.CONTAINER,
+    products    = JSON.parse(fs.readFileSync('data/products.json', 'utf-8')),
+  inContainer = process.env.CONTAINER,
     inAzure = process.env.WEBSITE_RESOURCE_GROUP,
     port = process.env.PORT || 8080;
 
@@ -22,14 +23,14 @@ app.use(function(req, res, next) {
 
 //The dist folder has our static resources (index.html, css, images)
 if (!inContainer) {
-    app.use(express.static(__dirname + '/dist')); 
+    app.use(express.static(__dirname + '/dist'));
     console.log(__dirname);
 }
 
 app.get('/api/customers/page/:skip/:top', (req, res) => {
     const topVal = req.params.top,
           skipVal = req.params.skip,
-          skip = (isNaN(skipVal)) ? 0 : +skipVal;  
+          skip = (isNaN(skipVal)) ? 0 : +skipVal;
     let top = (isNaN(topVal)) ? 10 : skip + (+topVal);
 
     if (top > customers.length) {
@@ -41,6 +42,10 @@ app.get('/api/customers/page/:skip/:top', (req, res) => {
     var pagedCustomers = customers.slice(skip, top);
     res.setHeader('X-InlineCount', customers.length);
     res.json(pagedCustomers);
+});
+
+app.get('/api/products', (req, res) => {
+  res.json(products);
 });
 
 app.get('/api/customers', (req, res) => {
@@ -57,7 +62,7 @@ app.get('/api/customers/:id', (req, res) => {
            selectedCustomer = customer;
            break;
         }
-    }  
+    }
     res.json(selectedCustomer);
 });
 
@@ -70,12 +75,23 @@ app.post('/api/customers', (req, res) => {
     res.json(postedCustomer);
 });
 
+app.post('/api/customers/add-new-orders/:id', (req, res) => {
+  let orders = req.body;
+  let id = +req.params.id;
+  let customer = customers.find((customer) => customer.id === id);
+  if (!customer["orders"]){
+    customer["orders"] = [];
+  }
+  customer["orders"].push(...orders);
+  res.json({ status: true });
+});
+
 app.put('/api/customers/:id', (req, res) => {
     let putCustomer = req.body;
     let id = +req.params.id;
     let status = false;
 
-    //Ensure state name is in sync with state abbreviation 
+    //Ensure state name is in sync with state abbreviation
     const filteredStates = states.filter((state) => state.abbreviation === putCustomer.state.abbreviation);
     if (filteredStates && filteredStates.length) {
         putCustomer.state.name = filteredStates[0].name;
@@ -99,7 +115,7 @@ app.delete('/api/customers/:id', function(req, res) {
            customers.splice(i,1);
            break;
         }
-    }  
+    }
     res.json({ status: true });
 });
 
